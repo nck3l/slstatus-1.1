@@ -7,7 +7,7 @@ const unsigned int interval = 1000;
 static const char unknown_str[] = "n/a";
 
 /* maximum output string length */
-#define MAXLEN 2048
+#define MAXLEN 2000
 
 /*
  * function            description                     argument (example)
@@ -49,17 +49,21 @@ static const char vol[] = "muted=`wpctl get-volume @DEFAULT_SINK@ | awk '{print 
                             else printf \"MUTED\"; \
                             fi";
 
+static const char tempt[] = "temperature=`sensors | grep CPU | awk '{print $2}'`; \
+                               printf \"${temperature}\"";
+
 static const struct arg args[] = {
 	/* function format          argument */
     { keyboard_indicators,   "^c#00ff00^ %2s ", "C?" },
     { cpu_perc,     "^c#ff0000^|  %2s %% ",    NULL },
+    { run_command,  "^c#ff0101^ %2s ",          tempt },
    	{ ram_used,     "^c#c46210^|  %2s ",       NULL },
 	{ wifi_perc,	"^c#ffef00^|  %2s ",       "wlan0"},
 	{ run_command,  "^c#ffef00^ %2s " ,         "network.sh" },
 //	{ run_command,	"^c#00ff00^| %2s ",         "upgrades.sh" },
 	{ run_command,  "^c#00ff00^|   %2s",         vol },
 	{ battery_state,"^c#1793d1^ |%2s",          "BAT0" },
-	{ battery_perc,	"^c#1793d1^ %2s %%",        "BAT0" },
+    { battery_perc,	"^c#1793d1^ %2s %%",        "BAT0" },
 //	{ datetime, 	"^c#54bddc^ | %2s",         "%a, %e %B %y" },
-	{ datetime,     "^c#54bddc^ %2s ",        " %I:%M %p" },
+	{ datetime,     "^c#54bddc^ | %2s ",        " %I:%M %p" },
 };
