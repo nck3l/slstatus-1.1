@@ -1,3 +1,5 @@
+![slstatus screenshot](slstatus.png)
+
 slstatus - suckless status
 ==========================
 slstatus is a small tool for providing system status information to other
@@ -5,6 +7,8 @@ programs over the EWMH property of the root window (used by dwm(1)) or
 standard input/output. It is designed to be as efficient as possible by
 only issuing the minimum of system calls required.
 
+Aside from the features below, my build has 2 functions. One is for volume,
+the other is to check for my vpn connection.
 
 Features
 --------
@@ -32,17 +36,6 @@ Features
 - Volume percentage
 - WiFi signal percentage and ESSID
 
-
-Requirements
-------------
-Currently slstatus works on FreeBSD, Linux and OpenBSD.
-In order to build slstatus you need the Xlib header files.
-
-- For volume percentage on Linux the kernel module `snd-mixer-oss` must be
-  loaded.
-- For volume percentage on FreeBSD, `sndio` must be installed.
-
-
 Installation
 ------------
 Edit config.mk to match your local setup (slstatus is installed into the
@@ -53,11 +46,8 @@ necessary as root):
 
     make clean install
 
-
-Running slstatus
-----------------
-See the man page for details.
-
+I do not use this method. I make it and then link the executeable to my 
+~/.local/bin folder and have that path declared in my X config files.
 
 Configuration
 -------------
