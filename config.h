@@ -1,4 +1,6 @@
-/* See LICENSE file for copyright and license details. */
+/* See LICENSE file for copyright and license details.
+ * You will need a Nerd Font installed to see the icons */
+
 
 /* interval between updates (in ms) */
 const unsigned int interval = 1000;
@@ -43,28 +45,29 @@ static const char unknown_str[] = "n/a";
  */
 
 static const char vol[] = "muted=`wpctl get-volume @DEFAULT_SINK@ | awk '{print $3;}'`; \
-                            volume=`wpctl get-volume @DEFAULT_SINK@ | awk '{print $2;}'`; \
-                            if [ -z ${muted} ]; then \
+                           volume=`wpctl get-volume @DEFAULT_SINK@ | awk '{print $2;}'`; \
+                           if [ -z ${muted} ]; then \
                                 printf \"${volume}\"; \
-                            else printf \"MUTED\"; \
-                            fi";
+                           else printf \" \"; \
+                           fi";
 
 static const char vpn[] = "if [ $(cat /sys/class/net/tun0/operstate) = 'unknown' ]; then \
-                           printf \"\"; \
-                           else printf \" \"; \
+                           printf \"󱚿\"; \
+                           else printf \"󰯆 \"; \
                            fi";
 
 static const struct arg args[] = {
 	/* function format          argument */
-	{ keyboard_indicators,   "^c#00ff00^ %s",  "C?" },
-	{ cpu_perc,     "^c#a42eff^  %s%%",        NULL }, // fc0000
- 	{ run_command,  "^c#a42eff^ %2s ",          "echo $(sensors | grep CPU | awk '{print $2}')" }, // fc0000
-   	{ ram_used,     "^c#a42eff^  %2s ",        NULL }, // ffa500
-	{ wifi_perc,	"^c#a42eff^  %2s%%",       "wlan0"}, // ffef00
-	{ run_command,  "^c#00fcfc^ %2s " ,         vpn }, // ffef00
-	{ run_command,  "^c#a42eff^   %2s",         vol }, // 00ff00
-	{ battery_state,"^c#a42eff^ %2s",          "BAT0" }, // 0000fc
-	{ battery_perc,	"^c#a42eff^ %2s%%",        "BAT0" }, // 0000fc
-	{ datetime, 	"^c#FFFFFF^ %2s",           "%a, %e %B %y" },
-	{ datetime,     "^c#FFFFFF^ %2s",           " %T " },
+	{ keyboard_indicators,   "^c#00ff00^ %s ",  "C?N?" },
+	{ cpu_perc,     "^c#bf616a^  %s%% ",        NULL },
+// 	{ run_command,  "^c#bf616a^ %2s",          "echo $(sensors | grep CPU | awk '{print $2}')" },
+   	{ ram_used,     "^c#d08770^  %2s ",        NULL },
+	{ run_command,  "^c#ebcb8b^ %2s" ,         vpn },
+	{ wifi_perc,	"^c#ebcb8b^ %2s%% ",       "wlp2s0"},
+	{ run_command,  "^c#a3be8c^  %2s ",         vol },
+	{ battery_state,"^c#81A1C1^ %2s",          "BAT0" },
+	{ battery_perc,	"^c#81A1C1^ %2s%%",        "BAT0" },
+    { battery_remaining, "^c#81A1C1^ %2s ",      "BAT0" },
+	{ datetime, 	"^c#b48ead^ %2s",           " %a %e %B" },
+	{ datetime,     "^c#b48ead^ %2s ",           "󰥔 %T" },
 };
