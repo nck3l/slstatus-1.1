@@ -24,10 +24,8 @@ static const char unknown_str[] = "n/a";
  * disk_total          total disk space in GB          mountpoint path (/)
  * disk_used           used disk space in GB           mountpoint path (/)
  * entropy             available entropy               NULL
- * hostname            hostname                        NULL
  * ipv4                IPv4 address                    interface name (eth0)
  * ipv6                IPv6 address                    interface name (eth0)
- * kernel_release      `uname -r`                      NULL
  * keyboard_indicators caps/num lock indicators        format string (c?n?) see keyboard_indicators.c
  * load_avg            load average                    NULL
  * netspeed_rx         receive network speed           interface name (wlan0)
@@ -50,30 +48,31 @@ static const char vol[] = "muted=`wpctl get-volume @DEFAULT_SINK@ | awk '{print 
                            else printf \" \"; \
                            fi";
 
-static const char vpn[] = "if [ $(cat /sys/class/net/tun0/operstate) = 'unknown' ]; then \
-                           printf \"󰦝\"; \
-                           else printf \"󰯆 \"; \
+static const char vpn[] =  "if [ $(cat /sys/class/net/tun0/operstate) = 'unknown' ]; then \
+                                printf \" 󰦝\"; \
+                           else printf \" 󰯆 \"; \
                            fi";
 
 static const struct arg args[] = {
 	/* function format          argument */
-	{ keyboard_indicators,   "^c#00ff00^ %s ",  "C?N?" },
-    { run_command,  "^c#bf616a^ ^b#000000^%s",             "echo " },
-	{ cpu_perc,     "^b#bf616a^ ^c#000000^󰌢 %s%%",        NULL },
-// 	{ run_command,  "^b#bf616a^ ^c#000000^%s",          "echo $(sensors | grep CPU | awk '{print $2}')" },
-    { run_command,  "^c#d08770^ ^b#bf616a^%s",             "echo " },
-   	{ ram_used,     "^b#d08770^ ^c#000000^ %s",        NULL },
-    { run_command,  "^c#ebcb8b^ ^b#d08770^%s",             "echo " },
-	{ wifi_perc,	"^b#ebcb8b^ ^c#000000^ %s%%",       "wlp2s0"},
-	{ run_command,  "^b#ebcb8b^ ^c#000000^%2s" ,         vpn },
-    { run_command,  "^c#a3be8c^ ^b#ebcb8b^%s",             "echo " },
-	{ run_command,  "^b#a3be8c^ ^c#000000^ %2s",         vol },
-    { run_command,  "^c#81A1C1^ ^b#a3be8c^%s",             "echo " },
-	{ battery_state,"^b#81A1C1^ ^c#000000^%s",          "BAT0" },
-	{ battery_perc,	"^b#81A1C1^ ^c#000000^%s%%",        "BAT0" },
-//    { battery_remaining, "^b#81A1C1^ ^c#000000^%s",      "BAT0" },
-    { run_command,  "^c#b48ead^ ^b#81A1C1^%s",             "echo " },
-//	{ datetime, 	"^b#b48ead^ ^c#000000^%2s",           " %a %e %B" },
-	{ datetime,     "^b#b48ead^ ^c#000000^%s",           "󰥔 %T" },
-    { run_command,  "^c#000000^ ^b#b48ead^%s",             "echo " },
+	{ keyboard_indicators,      "^c#00ff00^ %s ",           "C?N?" },
+//    { run_command,  "^c#bf616a^^b#000000^%s",              "echo " },
+	{ cpu_perc,     "^c#bf616a^^b#000000^󰻠 %s%% ",          NULL }, // 󰌢
+ 	{ run_command,  "^c#bf616a^^b#000000^%s ",              "echo $(sensors | grep CPU | awk '{print $2}')" },
+//    { run_command,  "^c#d08770^^b#bf616a^%s",              "echo " },
+   	{ ram_used,     "^c#d08770^^b#000000^ %s ",            NULL }, // 
+//    { run_command,  "^c#ebcb8b^^b#d08770^%s",              "echo " },
+	{ wifi_perc,	"^c#ebcb8b^^b#000000^󰤨%s%%",          "wlp2s0"}, // 
+	{ run_command,  "^c#ebcb8b^^b#000000^%2s " ,            vpn },
+//    { run_command,  "^c#a3be8c^^b#ebcb8b^%s",              "echo " },
+	{ run_command,  "^c#a3be8c^^b#000000^ %2s ",           vol },
+//    { run_command,  "^c#81A1C1^^b#a3be8c^%s",              "echo " },
+	{ battery_state,"^c#81A1C1^^b#000000^%s",              "BAT0" },
+	{ battery_perc,	"^c#81A1C1^^b#000000^%s%%",            "BAT0" },
+    { battery_remaining, "^c#81A1C1^^b#000000^%s ",         "BAT0" },
+//	{ datetime, 	"^b#6c5280^^c#000000^%2s",             " %a %e %B" },
+//    { run_command,  "^c#6c5280^^b#81A1C1^%s",              "echo " },
+	{ datetime,     "^c#6c5280^^b#000000^%s",              "󰥔 %T " },
+    { run_command,  "^c#ffffff^^b#1076a9^ %s ",             "echo  6.5" },
+    //{ run_command,  "^b#6c5280^^c#000000^%s",            "echo " },
 };
